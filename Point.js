@@ -13,8 +13,12 @@ class Point {
       //var xy = g_shapeList[i].position;
       //var rgba = g_shapeList[i].color;
       //var size = g_shapeList[i].size;
-  
+        
+      gl.disableVertexAttribArray(a_Position);
+      // gl.bufferdata(gl.ARRAY_BUFFER, new Float32Array([ xy[0], xy[1]])
+
       // Pass the position of a point to a_Position variable
+      
       gl.vertexAttrib3f(a_Position, xy[0], xy[1], 0.0);
       // Pass the color of a point to u_FragColor variable
       gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);

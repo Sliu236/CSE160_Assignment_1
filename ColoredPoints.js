@@ -66,6 +66,7 @@ function connectVariablesToGLSL() {
 
 const POINT = 0;
 const TRIANGLE = 1;
+const CIRCLE = 2;
 
 // Global variables
 let g_selectedColor = [1.0, 1.0, 1.0, 1.0]; // White
@@ -82,6 +83,7 @@ function addActionForHtmlUI() {
 
   document.getElementById('pointButton').onclick = function() { g_selectedType = POINT}; // Point
   document.getElementById('triButton').onclick = function() { g_selectedType = TRIANGLE}; // Triangle
+  document.getElementById('circleButton').onclick = function() { g_selectedType = CIRCLE}; // Triangle
   // slider event handling
   document.getElementById('redSlide').addEventListener('mouseup', function() { g_selectedColor[0] = this.value/100; }); // Red
   document.getElementById('greenSlide').addEventListener('mouseup', function() { g_selectedColor[1] = this.value/100; }); // Green
@@ -126,8 +128,10 @@ function click(ev) {
   let point;
   if(g_selectedType == POINT) { 
     point = new Point();
-  } else {
+  } else if (g_selectedType == TRIANGLE) { 
     point = new Triangle();
+  } else if (g_selectedType == CIRCLE) { 
+    point = new Circle();
   }
   point.position = [x, y];
   point.color = g_selectedColor.slice();
