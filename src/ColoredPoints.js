@@ -104,7 +104,7 @@ function addActionForHtmlUI() {
 }
 
 function getRandomColor() {
-  return [Math.random(), Math.random(), Math.random(), 1.0]; // 随机RGBA颜色
+  return [Math.random(), Math.random(), Math.random(), 1.0];
 }
 
 function main() {
