@@ -99,21 +99,32 @@ function main() {
   gl.clear(gl.COLOR_BUFFER_BIT);
 }
 
-var g_points = [];  // The array for the position of a mouse press
-var g_colors = [];  // The array to store the color of a point
-var g_sizes = [];  // The array to store the size of a point
+
+
+
+var g_shapeList = [];
+
+//var g_points = [];  // The array for the position of a mouse press
+//var g_colors = [];  // The array to store the color of a point
+//var g_sizes = [];  // The array to store the size of a point
 
 
 function click(ev) {
 
   let [x, y] = convertCoordinatesEventToGL(ev);
 
+  let point = new Point();
+  point.position = [x, y];
+  point.color = g_selectedColor.slice();
+  point.size = g_selectedSize;
+  g_shapeList.push(point);
+
   // Store the coordinates to g_points array
-  g_points.push([x, y]);
+//  g_points.push([x, y]);
 
-  g_colors.push(g_selectedColor.slice());
+//  g_colors.push(g_selectedColor.slice());
 
-  g_sizes.push(g_selectedSize);
+//  g_sizes.push(g_selectedSize);
 
   // Store the coordinates to g_points array
 //  if (x >= 0.0 && y >= 0.0) {      // First quadrant
@@ -139,24 +150,13 @@ function convertCoordinatesEventToGL(ev) {
 }
 
 function renderAllShapes() {
-    // Clear <canvas>
+  // Clear <canvas>
   gl.clear(gl.COLOR_BUFFER_BIT);
 
-  var len = g_points.length;
+  var len = g_shapeList.length;
   for(var i = 0; i < len; i++) {
-    var xy = g_points[i];
-    var rgba = g_colors[i];
-    var size = g_sizes[i];
-
-    // Pass the position of a point to a_Position variable
-    gl.vertexAttrib3f(a_Position, xy[0], xy[1], 0.0);
-    // Pass the color of a point to u_FragColor variable
-    gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
-
-    // Pass the color of a point to u_FragColor variable
-    gl.uniform1f(u_Size, size);
-    // Draw
-    gl.drawArrays(gl.POINTS, 0, 1);
+    g_shapeList[i].render();
   }
 }
+
 
