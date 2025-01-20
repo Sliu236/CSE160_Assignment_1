@@ -1,5 +1,10 @@
 // ColoredPoint.js (c) 2012 matsuda
 // Vertex shader program
+/*[student's name: Size Liu]
+[sliu236@ucsc.edu 1852375]
+
+Notes to Grader:
+[N/A]*/
 var VSHADER_SOURCE =
   'attribute vec4 a_Position;\n' +
   'uniform float u_Size;\n' +

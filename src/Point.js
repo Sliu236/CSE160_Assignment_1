@@ -1,3 +1,8 @@
+/*[student's name: Size Liu]
+[sliu236@ucsc.edu 1852375]
+
+Notes to Grader:
+[N/A]*/
 class Point {
     constructor() {
       this.type='point';
