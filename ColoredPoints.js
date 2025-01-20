@@ -28,7 +28,8 @@ function setupWebGL() {
     canvas = document.getElementById('webgl');
 
     // Get the rendering context for WebGL
-    gl = getWebGLContext(canvas);
+    //gl = getWebGLContext(canvas);
+    gl = canvas.getContext('webgl', {preserveDrawingBuffer: true});
     if (!gl) {
       console.log('Failed to get the rendering context for WebGL');
       return;
@@ -71,6 +72,8 @@ function addActionForHtmlUI() {
 
   document.getElementById('green').onclick = function() { g_selectedColor = [0.0,1.0,0.0,1.0]; }; // Green
   document.getElementById('red').onclick = function() { g_selectedColor = [1.0,0.0,0.0,1.0]; }; // Red
+  document.getElementById('blue').onclick = function() { g_selectedColor = [0.0,0.0,1.0,1.0]; }; // Blue
+  document.getElementById('clearButton').onclick = function() { g_shapeList = []; renderAllShapes()}; // Clear
 
   // slider event handling
   document.getElementById('redSlide').addEventListener('mouseup', function() { g_selectedColor[0] = this.value/100; }); // Red
@@ -90,7 +93,9 @@ function main() {
   addActionForHtmlUI(); // HTML UI Event Handling
 
   // Register function (event handler) to be called on a mouse press
+  //canvas.onmousedown = click;
   canvas.onmousedown = click;
+  canvas.onmousemove  = function(ev) { if (ev.buttons == 1) click(ev); }; // click and drag
 
   // Specify the color for clearing <canvas>
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -98,8 +103,6 @@ function main() {
   // Clear <canvas>
   gl.clear(gl.COLOR_BUFFER_BIT);
 }
-
-
 
 
 var g_shapeList = [];
@@ -150,6 +153,9 @@ function convertCoordinatesEventToGL(ev) {
 }
 
 function renderAllShapes() {
+
+  var startTime = performance.now();
+
   // Clear <canvas>
   gl.clear(gl.COLOR_BUFFER_BIT);
 
@@ -157,6 +163,17 @@ function renderAllShapes() {
   for(var i = 0; i < len; i++) {
     g_shapeList[i].render();
   }
+  var duration = performance.now() - startTime;
+  sentTextToHTML("numdots: " + len + " ms: " + Math.floor(duration) + " fps: " + Math.floor(10000/duration)/10, "numdot");
+}
+
+function sentTextToHTML(text, htmlID) {
+  var htmlElm = document.getElementById(htmlID);
+  if(!htmlElm) {
+    console.log('Failed to get' + htmlElm + 'from HTML');
+    return;
+  }
+  htmlElm.innerHTML = text;
 }
 
 
